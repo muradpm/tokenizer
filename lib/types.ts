@@ -56,6 +56,11 @@ export interface ModelData {
 	};
 }
 
+export interface Provider {
+	id: string;
+	name: string;
+}
+
 export interface ProviderData {
 	name?: string;
 	models: Record<string, ModelData>;

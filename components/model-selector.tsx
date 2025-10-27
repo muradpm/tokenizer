@@ -56,9 +56,13 @@ export function ModelSelector({ onModelChange }: ModelSelectorProps) {
 					setModels(result.data);
 
 					// Extract unique providers from models
-					const uniqueProviders = Array.from(
-						new Set(result.data.map((model) => model.provider)),
-					).map((providerName) => ({
+					const providerNames: string[] = result.data.map(
+						(model: APIModel) => model.provider,
+					);
+					const uniqueProviderNames: string[] = Array.from(
+						new Set(providerNames),
+					);
+					const uniqueProviders = uniqueProviderNames.map((providerName) => ({
 						id: providerName.toLowerCase().replace(/\s+/g, "-"),
 						name: providerName,
 					}));
@@ -71,7 +75,7 @@ export function ModelSelector({ onModelChange }: ModelSelectorProps) {
 						setSelectedProvider(firstProvider);
 
 						const firstModel = result.data.find(
-							(model) => model.provider === firstProvider.name,
+							(model: APIModel) => model.provider === firstProvider.name,
 						);
 						if (firstModel) {
 							setSelectedModel(firstModel);
@@ -95,7 +99,9 @@ export function ModelSelector({ onModelChange }: ModelSelectorProps) {
 	// Filter models by selected provider
 	const filteredModels = React.useMemo(() => {
 		if (!selectedProvider) return [];
-		return models.filter((model) => model.provider === selectedProvider.name);
+		return models.filter(
+			(model: APIModel) => model.provider === selectedProvider.name,
+		);
 	}, [models, selectedProvider]);
 
 	// Group models by provider (keep for potential future use)
@@ -119,7 +125,7 @@ export function ModelSelector({ onModelChange }: ModelSelectorProps) {
 
 			// Auto-select first model from the new provider
 			const firstModel = models.find(
-				(model) => model.provider === provider.name,
+				(model: APIModel) => model.provider === provider.name,
 			);
 			if (firstModel) {
 				setSelectedModel(firstModel);
@@ -225,7 +231,7 @@ export function ModelSelector({ onModelChange }: ModelSelectorProps) {
 						<CommandList className="h-[var(--cmdk-list-height)] max-h-[300px] overflow-auto">
 							<CommandInput placeholder="Search models..." />
 							<CommandEmpty>No models found.</CommandEmpty>
-							{filteredModels.map((model) => (
+							{filteredModels.map((model: APIModel) => (
 								<ModelItem
 									key={model.id}
 									model={model}
