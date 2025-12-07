@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import type { APIModel, ModelData, ProviderData } from "@/lib/types";
+import type { APIModel, ProviderData } from "@/lib/types";
 
 export async function GET() {
 	try {
